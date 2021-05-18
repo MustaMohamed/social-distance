@@ -1,0 +1,10 @@
+cython
+pyyaml
+numpy
+opencv-python
+matplotlib
+tqdm
+torch
+scipy
+PyDrive
+IPython
