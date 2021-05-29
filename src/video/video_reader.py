@@ -60,15 +60,14 @@ class VideoReader:
         cap.release()
         cv2.destroyAllWindows()
 
-    @staticmethod
-    def save_frames_as_video(video_name, frames_path):
-        frames = os.listdir(frames_path)
+    def save_frames_as_video(self, video_name):
+        frames = os.listdir(self.frames_path)
         frames.sort(key=lambda f: int(re.sub('\D', '', f)))
         frame_array = []
         size = (100, 100)
         for i in tqdm(range(len(frames))):
             # reading each files
-            img = cv2.imread(frames_path + frames[i])
+            img = cv2.imread(self.frames_path + frames[i])
             if img is None:
                 continue
             # img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)

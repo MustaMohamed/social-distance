@@ -22,7 +22,7 @@ class HumanDetector:
             setup_logger()
             self.__init_configuration_model()
         except ImportError:
-            print('The environment is not compatible with detectron2!!')
+            print('\nThe environment is not compatible with detectron2 const!!\n')
 
     def __init_configuration_model(self):
         try:
@@ -41,8 +41,8 @@ class HumanDetector:
                 "COCO-Detection/faster_rcnn_R_50_C4_3x.yaml")
             self.__predictor = self.__get_model_predictor(self.__config_manager)
 
-        except ImportError:
-            print('The environment is not compatible with detectron2!!')
+        except ImportError as e:
+            print('\nThe environment is not compatible with detectron2 init!!\n', str(e))
 
     def __get_model_predictor(self, config_manager):
         try:
@@ -51,7 +51,7 @@ class HumanDetector:
             predictor = DefaultPredictor(config_manager)
             return predictor
         except ImportError:
-            print('The environment is not compatible with detectron2!!')
+            print('\nThe environment is not compatible with detectron2 model!!\n')
 
     def get_persons_from_model(self, img):
         try:
@@ -89,4 +89,4 @@ class HumanDetector:
                 except ImportError:
                     cv2.imshow('Human Detection', visual.get_image()[:, :, ::-1])
         except ImportError:
-            print('The environment is not compatible with detectron2!!')
+            print('\nThe environment is not compatible with detectron2!!\n')

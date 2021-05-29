@@ -1,12 +1,28 @@
 import cv2
 from src.common.human_utils import HumanUtils
 from src.common.constants import Constants
+from src.common.image_utils import ImageUtils
 
 
-class DrawerHelper:
+class DrawerUtils:
 
     def __init__(self):
         pass
+
+    @staticmethod
+    def get_suit_line_size(img):
+        w = ImageUtils.get_image_width(img)
+        return max(int(w * 8 / 3000), 1)
+
+    @staticmethod
+    def get_suit_font_size(img):
+        w = ImageUtils.get_image_width(img)
+        return round(w * 0.9 / 3000, 2)
+
+    @staticmethod
+    def get_suit_box_height_size(img):
+        h = ImageUtils.get_image_height(img)
+        return max(int(h * 100 / 3000), 1)
 
     @staticmethod
     def draw_rectangle(img, position: (float, float, float, float), rectangle_line_width: int = 10, box_color=Constants.BOX_COLOR):
@@ -34,16 +50,18 @@ class DrawerHelper:
     @staticmethod
     def highlight_person_rectangle(img, person, box_line_width: int = 10, box_color=Constants.BOX_COLOR):
         x1, y1, x2, y2 = person
-        img = DrawerHelper.draw_rectangle(img, (x1, y1, x2, y2), box_line_width, box_color)
+        img = DrawerUtils.draw_rectangle(img, (x1, y1, x2, y2), box_line_width, box_color)
         return img
 
     @staticmethod
     def highlight_person_risky(img, person, box_line_width: int = 10):
+        font_scale = DrawerUtils.get_suit_font_size(img)
+        box_h = DrawerUtils.get_suit_box_height_size(img)
         x1, y1, x2, y2 = person
-        img = DrawerHelper.highlight_person_rectangle(img, (x1, y1, x2, y2), box_line_width, Constants.DANGER_BOX_COLOR)
+        img = DrawerUtils.highlight_person_rectangle(img, (x1, y1, x2, y2), box_line_width, Constants.DANGER_BOX_COLOR)
         wid = HumanUtils.get_human_width(person)
-        img = DrawerHelper.draw_rectangle(img, (x1, y1, x1 + wid, y1 - 100), -1, Constants.DANGER_BOX_COLOR)
-        img = DrawerHelper.put_text(img, 'Violation!!', (x1 + 20, y1 - 25), 2, Constants.FONT_COLOR_WHITE)
+        img = DrawerUtils.draw_rectangle(img, (x1, y1, x1 + wid, y1 - box_h), -1, Constants.DANGER_BOX_COLOR)
+        img = DrawerUtils.put_text(img, 'Violation!!', (x1 + box_h / 5, y1 - box_h / 4), font_scale, Constants.FONT_COLOR_WHITE)
         return img
 
     @staticmethod
@@ -52,6 +70,6 @@ class DrawerHelper:
                                                  circle_diameter: int = 5,
                                                  circle_color=Constants.CIRCLE_COLOR):
         person_mid = HumanUtils.get_human_bottom_center_point(person)
-        img = DrawerHelper.highlight_person_rectangle(img, person, rectangle_line_width, box_color)
-        img = DrawerHelper.draw_circle(img, person_mid, circle_diameter, circle_color)
+        img = DrawerUtils.highlight_person_rectangle(img, person, rectangle_line_width, box_color)
+        img = DrawerUtils.draw_circle(img, person_mid, circle_diameter, circle_color)
         return img

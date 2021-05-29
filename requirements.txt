@@ -5,6 +5,8 @@ opencv-python
 matplotlib
 tqdm
 torch
+torchvision
 scipy
 PyDrive
 IPython
+git+https://github.com/facebookresearch/detectron2.git

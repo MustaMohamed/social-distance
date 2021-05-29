@@ -1,4 +1,4 @@
-from src.common import Constants, DrawerHelper, HumanUtils, ImageUtils
+from src.common import Constants, DrawerUtils, HumanUtils, ImageUtils
 from scipy.spatial import distance
 import numpy as np
 
@@ -45,12 +45,10 @@ class DistanceCalculator:
     @staticmethod
     def mark_risky_person_with_red(img, persons, p1, p2, dist, image_width_in_meters):
         risky = np.unique(p1 + p2)
-        # @markdown ### Enter rectangle line width in pixels:
-        rectangle_line_width = 10  # @param {type:"number"}
-        # @markdown ### Enter text font scale multiple of 16:
-        font_scale = 2  # @param {type:"number"}
+        rectangle_line_width = DrawerUtils.get_suit_line_size(img)
+        font_scale = DrawerUtils.get_suit_font_size(img)
         for i in risky:
-            img = DrawerHelper.highlight_person_risky(img, persons[i], rectangle_line_width)
+            img = DrawerUtils.highlight_person_risky(img, persons[i], rectangle_line_width)
 
         mid = []
         for i in range(len(p1)):
@@ -61,10 +59,10 @@ class DistanceCalculator:
         for i in range(len(mid)):
             md = mid[i]
             start, end = md
-            img = DrawerHelper.draw_line(img, start, end, line_color=Constants.DANGER_LINE_COLOR)
+            img = DrawerUtils.draw_line(img, start, end, line_width=rectangle_line_width, line_color=Constants.DANGER_LINE_COLOR)
             h, w, c = img.shape
             real_dist = DistanceCalculator.convert_pixels2meters(dist[i], w, image_width_in_meters)
-            img = DrawerHelper.put_text(img, 'distance: ' + str(real_dist) + ' meters',
-                                        (min(start[0], end[0]), min(start[1], end[1])), 2)
+            img = DrawerUtils.put_text(img, 'distance: ' + str(real_dist) + ' meters',
+                                       (min(start[0], end[0]), min(start[1], end[1])), 2)
 
         return img
