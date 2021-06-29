@@ -1,12 +1,10 @@
-cython
-pyyaml
-numpy
-opencv-python
-matplotlib
-tqdm
-torch
-torchvision
-scipy
-PyDrive
-IPython
-git+https://github.com/facebookresearch/detectron2.git
+cython --no-binary :all:
+pyyaml --no-binary :all:
+numpy --no-binary :all:
+opencv-python --no-binary :all:
+matplotlib --no-binary :all:
+tqdm --no-binary :all:
+scipy --no-binary :all:
+PyDrive --no-binary :all:
+IPython --no-binary :all:
+git+https://github.com/facebookresearch/detectron2.git --no-binary :all:

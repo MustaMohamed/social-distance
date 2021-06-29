@@ -1,3 +1,7 @@
+import os
+from src.common import Constants
+
+
 class FileUtils:
     FILE_TYPE_IMAGE = 'image'
     FILE_TYPE_VIDEO = 'video'
@@ -16,3 +20,13 @@ class FileUtils:
             file_type = FileUtils.FILE_TYPE_NOT_SUPPORTED
 
         return file_type
+
+    @staticmethod
+    def file_name_without_ex(file_path):
+        file = os.path.basename(file_path)
+        return os.path.splitext(file)[0]
+
+    @staticmethod
+    def get_out_image_path(image_path):
+        img_name = FileUtils.file_name_without_ex(image_path)
+        return Constants.LOCAL_DATASET_PATH + '{}-out.png'.format(img_name)

@@ -7,6 +7,8 @@
 
 # import some common detectron2 utilities
 # import detectron2
+from src.common.constants import Constants
+from src.common.image_utils import ImageUtils
 import cv2
 import numpy as np
 from src.dataset import check_colab
@@ -30,17 +32,14 @@ class HumanDetector:
             from detectron2 import model_zoo
 
             self.__config_manager = get_cfg()
-
             # add project-specific config (e.g., TensorMask) here if you're not running a model in detectron2's core library
             self.__config_manager.merge_from_file(
                 model_zoo.get_config_file("COCO-Detection/faster_rcnn_R_50_C4_3x.yaml"))
             self.__config_manager.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.9  # set threshold for this model
-
             # Find a model from detectron2's model zoo. You can use the https://dl.fbaipublicfiles... url as well
             self.__config_manager.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(
                 "COCO-Detection/faster_rcnn_R_50_C4_3x.yaml")
             self.__predictor = self.__get_model_predictor(self.__config_manager)
-
         except ImportError as e:
             print('\nThe environment is not compatible with detectron2 init!!\n', str(e))
 
@@ -88,5 +87,7 @@ class HumanDetector:
                     cv2_imshow(visual.get_image()[:, :, ::-1])
                 except ImportError:
                     cv2.imshow('Human Detection', visual.get_image()[:, :, ::-1])
-        except ImportError:
-            print('\nThe environment is not compatible with detectron2!!\n')
+            else:
+                ImageUtils.save_image(Constants.LOCAL_DATASET_PATH + 'visual-test.png', visual.get_image()[:, :, ::-1])
+        except ImportError as e:
+            print('\nThe environment is not compatible with detectron2!!\n', e)
