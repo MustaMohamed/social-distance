@@ -19,3 +19,17 @@ class ImageUtils:
     def get_image_height(img):
         h, w, d = img.shape
         return h
+
+    @staticmethod
+    def display_image(img_path, parent = None):
+        from PIL import ImageTk, Image  
+        import tkinter
+        if parent is None:
+            parent = tkinter.Tk()
+        img = Image.open(img_path)
+        img = img.resize((550, 650), Image.ANTIALIAS)
+        img = ImageTk.PhotoImage(img)
+
+        panel = tkinter.Label(parent, image = img)
+        panel.pack(side = "bottom", fill = "both", expand = "yes")
+        parent.mainloop()

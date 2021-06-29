@@ -16,6 +16,7 @@ class Predictor:
     def predict_image(self, img_path, image_width_in_meters):
         self.scene_width = image_width_in_meters
         img = cv2.imread(img_path)
+        self.model.visualize_predicted_image(img)
         self.persons = self.model.get_persons_from_model(img)
         img = self.__highlight_person(img)
         img = self.__highlight_risky(img)
