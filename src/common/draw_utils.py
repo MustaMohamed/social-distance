@@ -17,7 +17,7 @@ class DrawerUtils:
     @staticmethod
     def get_suit_font_size(img):
         w = ImageUtils.get_image_width(img)
-        return round(w * 0.9 / 3000, 2)
+        return round(w * 1.5 / 3000, 2)
 
     @staticmethod
     def get_suit_box_height_size(img):
