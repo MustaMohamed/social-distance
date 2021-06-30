@@ -7,4 +7,5 @@ tqdm --no-binary :all:
 scipy --no-binary :all:
 PyDrive --no-binary :all:
 IPython --no-binary :all:
+tkvideo --no-binary :all:
 git+https://github.com/facebookresearch/detectron2.git --no-binary :all:
