@@ -12,11 +12,12 @@ class Predictor:
         self.model = HumanDetector()
         self.persons = []
         self.scene_width = 0
+        self.threshold_dist = 0
 
-    def predict_image(self, img_path, image_width_in_meters):
+    def predict_image(self, img_path, image_width_in_meters, threshold_dist):
         self.scene_width = image_width_in_meters
+        self.threshold_dist = threshold_dist
         img = cv2.imread(img_path)
-        self.model.visualize_predicted_image(img)
         self.persons = self.model.get_persons_from_model(img)
         img = self.__highlight_person(img)
         img = self.__highlight_risky(img)
@@ -42,18 +43,17 @@ class Predictor:
         print("\nYour result video is under this path: ", res_vid)
         return res_vid
 
-
     def __highlight_person(self, img):
         rectangle_line_width = DrawerUtils.get_suit_line_size(img)
         font_scale = DrawerUtils.get_suit_font_size(img)
         for per in self.persons:
-            img = DrawerUtils.highlight_person_rectangle_center_circle(img, per, rectangle_line_width, rectangle_line_width * 2)
+            img = DrawerUtils.highlight_person_rectangle_center_circle(img, per, rectangle_line_width, circle_diameter=rectangle_line_width * 2)
         return img
 
     def __highlight_risky(self, img):
         h, img_width, c = img.shape
         dist = DistanceCalculator.compute_distance(self.persons)
-        thresh = DistanceCalculator.convert_meters2pixels(1, img_width, self.scene_width)
+        thresh = DistanceCalculator.convert_meters2pixels(self.threshold_dist, img_width, self.scene_width)
         closest = DistanceCalculator.find_closest(dist, len(self.persons), thresh)
         img = DistanceCalculator.mark_risky_person_with_red(img, self.persons,
                                                             closest[0], closest[1], closest[2], self.scene_width)

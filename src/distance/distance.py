@@ -62,7 +62,7 @@ class DistanceCalculator:
             img = DrawerUtils.draw_line(img, start, end, line_width=rectangle_line_width, line_color=Constants.DANGER_LINE_COLOR)
             h, w, c = img.shape
             real_dist = DistanceCalculator.convert_pixels2meters(dist[i], w, image_width_in_meters)
-            img = DrawerUtils.put_text(img, 'distance: ' + str(real_dist) + ' meters',
-                                       (min(start[0], end[0]), min(start[1], end[1])), 2)
+            img = DrawerUtils.put_text(img, 'distance: ' + str(real_dist) + ' m',
+                                       (min(start[0], end[0]), min(start[1], end[1])), size=font_scale*2)
 
         return img
