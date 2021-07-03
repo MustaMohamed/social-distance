@@ -44,7 +44,7 @@ class DrawerUtils:
     def put_text(img, text, pos, size=1, color=Constants.FONT_COLOR_GREEN):
         font = cv2.FONT_HERSHEY_DUPLEX
         x, y = pos
-        img = cv2.putText(img, text, (int(x), int(y)), font, size, color, 2, cv2.LINE_AA)
+        img = cv2.putText(img, text, (int(x), int(y)), font, size, color, 1, cv2.LINE_AA)
         return img
 
     @staticmethod

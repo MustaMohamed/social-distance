@@ -122,15 +122,5 @@ class Window:
 
     def predict_video(self, file_path, scene_width, threshold_distance):
         video = self.predictor.predict_video(file_path, scene_width, threshold_distance)
-        my_label = Label(self.window)
-        my_label.place(x=10, y=220)
-        player = tkvideo.tkvideo(video, my_label, loop=1, size=(820, 720))
-        player.play()
-
-
-
-
-
-
-
+        messagebox.showinfo("Video Result", "Your result video is under this path: " + video)
 

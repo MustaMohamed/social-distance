@@ -18,14 +18,6 @@ class Predictor:
         self.scene_width = image_width_in_meters
         self.threshold_dist = threshold_dist
         img = cv2.imread(img_path)
-        h, w, d = img.shape
-        if w > 820:
-            h = int(820 * h / w)
-            w = 820
-        if h > 720:
-            w = int(720 * w / h)
-            h = 720
-        img = cv2.resize(img, (w, h), interpolation=cv2.INTER_AREA)
         self.persons = self.model.get_persons_from_model(img)
         img = self.__highlight_person(img, image_width_in_meters)
         img = self.__highlight_risky(img)
