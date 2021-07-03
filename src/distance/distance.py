@@ -45,10 +45,10 @@ class DistanceCalculator:
     @staticmethod
     def mark_risky_person_with_red(img, persons, p1, p2, dist, image_width_in_meters):
         risky = np.unique(p1 + p2)
-        rectangle_line_width = DrawerUtils.get_suit_line_size(img)
-        font_scale = DrawerUtils.get_suit_font_size(img)
+        rectangle_line_width = DrawerUtils.get_suit_line_size(img, image_width_in_meters)
+        font_scale = DrawerUtils.get_suit_font_size(img, image_width_in_meters)
         for i in risky:
-            img = DrawerUtils.highlight_person_risky(img, persons[i], rectangle_line_width)
+            img = DrawerUtils.highlight_person_risky(img, persons[i], image_width_in_meters, rectangle_line_width)
 
         mid = []
         for i in range(len(p1)):
@@ -63,6 +63,6 @@ class DistanceCalculator:
             h, w, c = img.shape
             real_dist = DistanceCalculator.convert_pixels2meters(dist[i], w, image_width_in_meters)
             img = DrawerUtils.put_text(img, 'distance: ' + str(real_dist) + ' m',
-                                       (min(start[0], end[0]), min(start[1], end[1])), size=font_scale*2)
+                                       (min(start[0], end[0]), min(start[1], end[1])), size=font_scale*1.5)
 
         return img

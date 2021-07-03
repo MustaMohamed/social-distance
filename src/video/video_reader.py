@@ -3,7 +3,7 @@ import shutil
 import os
 import re
 from tqdm import tqdm
-
+import ntpath
 from src.common import Constants
 
 
@@ -13,8 +13,10 @@ class VideoReader:
 
     def __init__(self, video_path: str):
         self.__video_path = video_path
-        self.frames_path = os.path.splitext(video_path)[0] + '-frames/'
+        ntpath.basename("a/b/c")
+        self.frames_path = Constants.LOCAL_DATASET_PATH + ntpath.basename(video_path) + '-frames/'
         self.__init_frames_folder(self.frames_path)
+        print(video_path, self.frames_path)
 
     def read(self):
         frames_count = 0

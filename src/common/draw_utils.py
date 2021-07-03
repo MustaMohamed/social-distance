@@ -10,14 +10,14 @@ class DrawerUtils:
         pass
 
     @staticmethod
-    def get_suit_line_size(img):
+    def get_suit_line_size(img, image_width_in_meters):
         w = ImageUtils.get_image_width(img)
-        return max(int(w * 8 / 3000), 1)
+        return max(int(w * 16 / (3000 * image_width_in_meters / 3)), 1)
 
     @staticmethod
-    def get_suit_font_size(img):
+    def get_suit_font_size(img, image_width_in_meters):
         w = ImageUtils.get_image_width(img)
-        return round(w * 1.5 / 3000, 2)
+        return round(w * 2 / (3000 * image_width_in_meters / 3), 2)
 
     @staticmethod
     def get_suit_box_height_size(img):
@@ -44,7 +44,7 @@ class DrawerUtils:
     def put_text(img, text, pos, size=1, color=Constants.FONT_COLOR_GREEN):
         font = cv2.FONT_HERSHEY_DUPLEX
         x, y = pos
-        img = cv2.putText(img, text, (int(x), int(y)), font, size, color, 2, cv2.LINE_AA)
+        img = cv2.putText(img, text, (int(x), int(y)), font, size, color, 1, cv2.LINE_AA)
         return img
 
     @staticmethod
@@ -54,8 +54,8 @@ class DrawerUtils:
         return img
 
     @staticmethod
-    def highlight_person_risky(img, person, box_line_width: int = 10):
-        font_scale = DrawerUtils.get_suit_font_size(img)
+    def highlight_person_risky(img, person, image_width_in_meters, box_line_width: int = 10):
+        font_scale = DrawerUtils.get_suit_font_size(img, image_width_in_meters)
         box_h = DrawerUtils.get_suit_box_height_size(img)
         x1, y1, x2, y2 = person
         img = DrawerUtils.highlight_person_rectangle(img, (x1, y1, x2, y2), box_line_width, Constants.DANGER_BOX_COLOR)

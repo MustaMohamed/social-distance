@@ -4,6 +4,7 @@ from PIL import ImageTk, Image
 from src.common import Constants, FileUtils, ImageUtils
 from src.model import Predictor
 import cv2
+from tkvideo import tkvideo
 
 
 class UIComponent(object):
@@ -63,8 +64,8 @@ class Window:
     def display_image(self, img_path):
         h, w, d = cv2.imread(img_path).shape
         if w > 820:
-            w = 820
             h = 820 * h / w
+            w = 820
 
         if h > 720:
             w = 720 * w / h
@@ -108,6 +109,8 @@ class Window:
         if self.validate_input(file_path, scene_width, threshold_dist):
             if FileUtils.get_file_type(file_path) == FileUtils.FILE_TYPE_IMAGE:
                 self.predict_image(file_path, float(scene_width), float(threshold_dist))
+            elif FileUtils.get_file_type(file_path) == FileUtils.FILE_TYPE_VIDEO:
+                self.predict_video(file_path, float(scene_width), float(threshold_dist))
 
     def predict_image(self, file_path, scene_width, threshold_distance):
         img = self.predictor.predict_image(file_path, scene_width, threshold_distance)
@@ -117,13 +120,7 @@ class Window:
         ImageUtils.save_image(img_name, img)
         self.display_image(img_name)
 
-    def predict_video(self):
-        pass
-
-
-
-
-
-
-
+    def predict_video(self, file_path, scene_width, threshold_distance):
+        video = self.predictor.predict_video(file_path, scene_width, threshold_distance)
+        messagebox.showinfo("Video Result", "Your result video is under this path: " + video)
 
